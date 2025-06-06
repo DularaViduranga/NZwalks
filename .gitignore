@@ -1,0 +1,34 @@
+# Build folders
+bin/
+obj/
+TestResults/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+.vscode/
+
+# ASP.NET files
+*.dbmdl
+*.bak
+*.log
+*.pdb
+
+# Configuration transforms
+*.config.transform
+
+# Packages
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Others
+*.DotSettings.user
+_ReSharper*/
