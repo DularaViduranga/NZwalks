@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using NZWalks.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<NZWalksDbContext>(options =>
-options.UseMySql(builder.Configuration.GetConnectionString("NZWalksConnectionString")));
+options.UseMySql(builder.Configuration.GetConnectionString("NZWalksConnectionString"),new MySqlServerVersion(new Version(8, 3, 0))));
 
 
 var app = builder.Build();
