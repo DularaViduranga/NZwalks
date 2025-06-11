@@ -1,14 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace NZWalks.API.Controllers
 {
-    public class RegionsController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RegionsController : ControllerBase
     {
-        // GET: RegionsController
-        public ActionResult Index()
-        {
-            return View();
-        }
-
+        
     }
 }
