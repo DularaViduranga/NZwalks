@@ -55,7 +55,33 @@ namespace NZWalks.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult create()
+        public IActionResult create([FromBody] AddRegionRequestDTO addRegionRequestDto)
+        {
+
+            var regionDomain = new Region
+            {
+                Code = addRegionRequestDto.Code,
+                Name = addRegionRequestDto.Name,
+                RegionImageUrl = addRegionRequestDto.RegionImageUrl
+            };
+
+            dbContext.Regions.Add(regionDomain);
+            dbContext.SaveChanges();
+
+            var regionDto = new RegionsDTO
+            {
+                Id = regionDomain.Id,
+                Code = regionDomain.Code,
+                Name = regionDomain.Name,
+                RegionImageUrl = regionDomain.RegionImageUrl
+            };
+            return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
+
+        }
+
+        [HttpPut]
+        [Route("{id:guid}")]
+        public IActionResult Update([FromRoute] Guid id, [FromBody] RegionsDTO regionsDto)
         {
             
         }
