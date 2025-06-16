@@ -44,15 +44,14 @@ namespace NZWalks.API.Repositories
             return existingRegion;
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        public async Task<Region?> DeleteAsync(Guid id)
         {
-            var region = await nzWalksDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
-            if (region == null)
-                return false;
-
-            nzWalksDbContext.Regions.Remove(region);
+            var existingRegion = await nzWalksDbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
+            if (existingRegion == null)
+                return null;   
+            nzWalksDbContext.Regions.Remove(existingRegion);
             await nzWalksDbContext.SaveChangesAsync();
-            return true;
+            return existingRegion;
         }
     }
 }
