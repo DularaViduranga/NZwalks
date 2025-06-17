@@ -3,11 +3,10 @@ using NZWalks.API.Models.Domain;
 
 namespace NZWalks.API.Data;
 
-public class NZWalksDbContext: DbContext
+public class NZWalksDbContext : DbContext
 {
-    public NZWalksDbContext(DbContextOptions dbContextOptions): base(dbContextOptions)
+    public NZWalksDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
     {
-        
     }
 
     public DbSet<Difficulty> Difficulties { get; set; }
@@ -17,6 +16,7 @@ public class NZWalksDbContext: DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
         var difficulties = new List<Difficulty>()
         {
             new Difficulty()
@@ -35,9 +35,8 @@ public class NZWalksDbContext: DbContext
                 Name = "Hard"
             }
         };
-
         modelBuilder.Entity<Difficulty>().HasData(difficulties);
-        
+
         var regions = new List<Region>()
         {
             new Region()
@@ -55,7 +54,16 @@ public class NZWalksDbContext: DbContext
                 RegionImageUrl = "www.example.com/south-island.jpg",
             }
         };
-        
         modelBuilder.Entity<Region>().HasData(regions);
+        
+        modelBuilder.Entity<Walk>()
+            .HasOne(w => w.Difficulty)
+            .WithMany()
+            .HasForeignKey(w => w.DifficultyId);
+
+        modelBuilder.Entity<Walk>()
+            .HasOne(w => w.Region)
+            .WithMany()
+            .HasForeignKey(w => w.RegionId);
     }
 }
