@@ -17,6 +17,8 @@ options.UseMySql(builder.Configuration.GetConnectionString("NZWalksConnectionStr
 
 // Registering the repository
 builder.Services.AddScoped<IRegionRepo,MySqlRegionRepo>();
+builder.Services.AddScoped<IWalkRepo,MySqlIWalkRepo>();
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 var app = builder.Build();
 
