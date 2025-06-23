@@ -48,12 +48,20 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDTO addRegionRequestDto)
         {
-            var regionDomain = _mapper.Map<Region>(addRegionRequestDto);
+            if (ModelState.IsValid)
+            {
+                var regionDomain = _mapper.Map<Region>(addRegionRequestDto);
 
-            regionDomain = await _regionRepo.CreateAsync(regionDomain);
+                regionDomain = await _regionRepo.CreateAsync(regionDomain);
 
-            var regionDto = _mapper.Map<RegionsDTO>(regionDomain);
-            return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
+                var regionDto = _mapper.Map<RegionsDTO>(regionDomain);
+                return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+            
            
         }
 
@@ -61,14 +69,21 @@ namespace NZWalks.API.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
         {
+            if (ModelState.IsValid)
+            {
+                var regionDomain = _mapper.Map<Region>(updateRegionRequestDto);
 
-            var regionDomain = _mapper.Map<Region>(updateRegionRequestDto);
-
-            var updatedRegion = await _regionRepo.UpdateAsync(id, regionDomain);
-            if (updatedRegion == null)
-                return NotFound($"Region with Id {id} not found.");
+                var updatedRegion = await _regionRepo.UpdateAsync(id, regionDomain);
+                if (updatedRegion == null)
+                    return NotFound($"Region with Id {id} not found.");
                 
-            return Ok(_mapper.Map<RegionsDTO>(updatedRegion));
+                return Ok(_mapper.Map<RegionsDTO>(updatedRegion));
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+            
         }
         
 
